@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async(req, res) => {
     })
     // 201 indicates that something is created
     if(user){
-        res.status(201, {
+        res.status(201).json({
             _id: user._id, // this is how mongo DB create user ID
             name: user.name,
             email: user.email,
@@ -57,7 +57,7 @@ const registerUser = asyncHandler(async(req, res) => {
         const user = await User.findOne({email}) // finding user email into DB
         // check user and passwords match
         if(user && (await bcrypt.compare(password, user.password))){ // Matching the user password with DB password
-            res.status(200, {
+            res.status(200).json ({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -69,9 +69,24 @@ const registerUser = asyncHandler(async(req, res) => {
             throw new Error('Invalid Credentials')
         }
 
-    })
+})
 
-// Generate Token
+
+// @desc Get current user
+// @route /api/users/me
+// @access Private     
+const getMe = asyncHandler(async(req, res) => {
+    const user = {
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email
+    }
+        res.status(201).json(user)
+})
+
+
+
+    // Generate Token
 // id = user._id
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -82,4 +97,5 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
+    getMe
 }
