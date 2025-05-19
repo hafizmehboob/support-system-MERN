@@ -6,7 +6,7 @@ const User = require('../models/userModels') // imported the user table
 // @route /api/users
 // @access Public
 const registerUser = asyncHandler(async(req, res) => {
-
+   
     const {name, email, password} = req.body
 
     if(!name || !email || !password){

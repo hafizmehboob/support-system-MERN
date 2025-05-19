@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import {FaSignInAlt} from 'react-icons/fa';
 import { toast } from 'react-toastify';
+// useSelect will select global state, useDispatch will use to Dispatch our actions
+import {useSelector, useDispatch} from 'react-redux'; 
+import { login, register } from '../features/auth/authSlice';
+
+
 function Login(){
   
   const [formData, setFormData] = useState({
@@ -8,8 +13,12 @@ function Login(){
     password: '',
   });
 
-  const {name, email, password, password2} = formData;
+  const {email, password} = formData;
   
+  const dispatch = useDispatch(); // dispatch our actions e.g register
+
+  const {user, isSuccess, isLoading, message} = useSelector(state => state.auth) // we selected our defined state 'auth'
+
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -18,7 +27,11 @@ function Login(){
   }
   const onSubmit = (e) => {
     e.preventDefault();
-   
+   const userData = {
+    email,
+    password
+   }
+   dispatch(login(userData))
   }
   return (
     <>
@@ -41,7 +54,7 @@ function Login(){
             <div className="form-group">
             <input type="password" className="form-control"
                 id='password' value={password} onChange={onChange} 
-                placeholder='Enter Your Name' name='password' required />
+                placeholder='Enter Your Password' name='password' required />
             </div>
            
             <div className="form-group">
