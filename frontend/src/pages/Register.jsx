@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import {useSelector, useDispatch} from 'react-redux'; 
 import { register, reset } from '../features/auth/authSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
-
+import Spinner from '../components/Spinner';
 
 function Register(){
   
@@ -21,7 +21,7 @@ function Register(){
 
   const dispatch = useDispatch(); // dispatch our actions e.g register
 
-  const {user, isSuccess, isError, isLoading, message} = useSelector(state => state.auth) // we selected our defined state 'auth'
+  const {user, isError, isSuccess, isLoading, message} = useSelector(state => state.auth) // we selected our defined state 'auth'
   
 
   useEffect(() => {
@@ -55,6 +55,9 @@ function Register(){
       }
       dispatch(register(userData))
     }
+  }
+  if(isLoading){
+    return <Spinner /> 
   }
   return (
     <>
