@@ -8,7 +8,7 @@ function TicketItem({ticket}) {
         <div className={`status status-${ticket.status}`}>
             {ticket.status}
         </div>
-        <Link to={`/tickets/${ticket._id}`} className='btn btn-reverse btn-sm'>View</Link>
+        <Link to={`/ticket/${ticket._id}`} className='btn btn-reverse btn-sm'>View</Link>
     </div>
   )
 }
