@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux"
 import { closeTicket, getTicket, reset } from "../features/tickets/ticketSlice"
-import { getNotes, reset as notesReset } from "../features/notes/noteSlice"
+import { getNotes, createNote ,reset as notesReset } from "../features/notes/noteSlice"
 import { BackButton } from "../components/BackButton"
 import Spinner from "../components/Spinner"
 import { useParams } from "react-router-dom"
@@ -64,7 +64,7 @@ function Ticket() {
     // create note submit
     const onNoteSubmit = (e) => {
         e.preventDefault()
-        console.log('submit')
+        dispatch(createNote({noteText, ticketId}))
         closeModal();
     }
     if(isLoading || notesIsLoading){
@@ -97,9 +97,10 @@ function Ticket() {
        {ticket.status !== 'closed' && (
         <>
            <button onClick={openModal} className="btn"><FaPlus /> Add Note</button>
-           {notes.map((note) => (
-           <NoteItem key={note._id} note={note} />
-           ))}
+          {notes.map((note) => {
+            console.log('note._id:', note._id)
+            return <NoteItem key={note._id} note={note} />
+            })}
          </>
        )}
 
